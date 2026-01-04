@@ -25,7 +25,7 @@ pip install esphome
 Put the lamp in boot mode (hold button → plug in 12V → plug in USB → release), then:
 
 ```bash
-esphome run color_shadow.yaml --device COM* ##Check your port where lamp is pluged in. 
+esphome run color_shadow.yaml --device COM* ##Check your port where lamp is plugged in. 
 ```
 
 ### 2. Connect to WiFi
