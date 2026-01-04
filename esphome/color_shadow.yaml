@@ -1,0 +1,111 @@
+esphome:
+  name: color-shadow-lamp
+  friendly_name: Color Shadow Lamp
+
+external_components:
+  - source:
+      type: local
+      path: components
+
+esp32:
+  board: esp32-c3-devkitm-1
+  framework:
+    type: arduino
+
+logger:
+  baud_rate: 115200
+
+api:
+  reboot_timeout: 0s
+
+ota:
+  platform: esphome
+
+captive_portal:
+
+# Web server for control and screen sync
+web_server:
+  port: 80
+
+wifi:
+  ap:
+    ssid: "Color Shadow Setup"
+    password: "shadowlamp"
+
+light:
+  - platform: color_shadow_light
+    id: color_shadow_entity
+    output_id: color_shadow_driver
+    name: "Color Shadow Lamp"
+    icon: "mdi:lightbulb"
+
+switch:
+  - platform: template
+    id: safe_mode_switch
+    name: "Color Shadow Safe Mode"
+    icon: "mdi:shield-half-full"
+    restore_mode: RESTORE_DEFAULT_ON
+    lambda: |-
+      return id(color_shadow_driver).safe_mode_enabled();
+    optimistic: false
+    turn_on_action:
+      - lambda: |-
+          id(color_shadow_driver).set_safe_mode(true);
+      - logger.log: "Safe mode enabled"
+    turn_off_action:
+      - lambda: |-
+          id(color_shadow_driver).set_safe_mode(false);
+      - logger.log: "Safe mode disabled"
+
+binary_sensor:
+  - platform: gpio
+    id: mode_button
+    internal: true
+    pin:
+      number: GPIO9
+      mode:
+        input: true
+        pullup: true
+      inverted: true
+    on_click:
+      - min_length: 50ms
+        max_length: 1000ms
+        then:
+          - light.toggle: color_shadow_entity
+    on_multi_click:
+      - timing:
+          - ON for 15s to 60s
+        then:
+          - script.execute: factory_reset
+
+script:
+  - id: factory_reset
+    mode: single
+    then:
+      - logger.log: "Factory reset requested"
+      - repeat:
+          count: 3
+          then:
+            - lambda: |-
+                auto call = id(color_shadow_entity).make_call();
+                call.set_transition_length(0);
+                call.set_state(true);
+                call.set_rgb(1.0f, 1.0f, 1.0f);
+                call.set_brightness(1.0f);
+                call.perform();
+            - delay: 150ms
+            - lambda: |-
+                auto call = id(color_shadow_entity).make_call();
+                call.set_transition_length(0);
+                call.set_state(false);
+                call.perform();
+            - delay: 150ms
+      - lambda: |-
+          id(color_shadow_driver).reset_to_safe_mode();
+      - switch.turn_on: safe_mode_switch
+      - lambda: |-
+          esphome::global_preferences->reset();
+      - delay: 500ms
+      - logger.log: "Credentials erased, rebooting"
+      - lambda: |-
+          ESP.restart();
