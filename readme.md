@@ -1,6 +1,6 @@
 # Color Shadow Lamp — ESPHome + Screen Sync
 
-ESPHome firmware for the [RCTestFlight Color Shadow Lamp](https://www.rctestflight.com/store/p/color-shadow-lamp) with PC screen sync (ambilight) support.
+ESPHome firmware for the [RCTestFlight Color Shadow Lamp](https://www.rctestflight.com/store/p/color-shadow-lamp), [Github](https://github.com/rctestflight/Color-Shadow-Lamp) with PC screen sync (ambilight) support.
 
 Based on [meslater's ESPHome port](https://github.com/meslater/Color-Shadow-Lamp) which preserves manual RGB control via the knobs while adding WiFi connectivity.
 
