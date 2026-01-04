@@ -66,7 +66,7 @@ pip install mss numpy requests
 ### Run
 
 ```bash
-python screen_sync/screen_sync.py
+python Screen sync/screen_sync.py
 ```
 
 ### Configuration
