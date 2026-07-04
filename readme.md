@@ -4,26 +4,29 @@ ESPHome firmware for the [RCTestFlight Color Shadow Lamp](https://www.rctestflig
 
 Based on [meslater's ESPHome port](https://github.com/meslater/Color-Shadow-Lamp).
 
-## UPDATE*
+## UPDATE
+
 Connect lamp to same network where you run this from.
+
+```bash
 pip install aioesphomeapi
-cd to the .\Color-Shadow-Lamp-screen-sync\esphome 
+cd .\Color-Shadow-Lamp-screen-sync\esphome
 esphome run color_shadow.yaml
-wait...
-wait..
-wait.
-when done, it should tell you: "
+```
+
+Wait for it to finish. When done, it should tell you:
 INFO Successfully compiled program.
 INFO Connecting to 192.168.0.193 port 6767...
-"
-unplug lamp, wait, plug lamp back in.
-run screen_sync.py
 
-you can see logs and other settinga at 192.168.0.193
+Unplug the lamp, wait a sec, plug it back in.
 
-you may nee you press the button to turn off maunal control the log should tell you.
+Run `screen_sync.py`.
 
-Now it does EDGE sampling, so its a nice gaming, or movie pc back light using this cool lamp.
+You can view logs and other settings at `192.168.0.193`.
+
+You may need to press the button to turn off manual control — the log will tell you.
+
+Now it does **edge sampling**, so it works great as a gaming or movie PC backlight with this cool lamp 🔥
 
 ## Hardware
 
