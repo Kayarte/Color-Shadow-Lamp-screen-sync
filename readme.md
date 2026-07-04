@@ -20,7 +20,7 @@ INFO Connecting to 192.168.0.193 port 6767...
 
 Unplug the lamp, wait a sec, plug it back in.
 
-Run `screen_sync.py`.
+Run `screen_sync.py`
 
 You can view logs and other settings at `192.168.0.193`.
 
